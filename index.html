@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Persona</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+      gap: 10px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+    label {
+      font-weight: bold;
+    }
+    input {
+      padding: 6px;
+    }
+    button {
+      padding: 8px;
+      cursor: pointer;
+      background: steelblue;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: darkblue;
+    }
+  </style>
+</head>
+<body>
+  <!-- Contenedor principal -->
+  <div id="app"></div>
+
+  <script>
+    // Clase Persona (molde para crear objetos)
+    class Persona {
+      constructor(nombre, apellido, documento, fechaNacimiento) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.documento = documento;
+        this.fechaNacimiento = fechaNacimiento;
+      }
+    }
+
+    // Componente de Registro
+    class RegistroComponent {
+      constructor(parent) {
+        this.parent = parent; // Elemento padre donde se va a renderizar
+      }
+
+      render() {
+        // Usamos innerHTML con template strings
+        this.parent.innerHTML = `
+          <h2>Registro de Persona</h2>
+          <form id="registroForm">
+            <label>Nombre:</label>
+            <input type="text" id="nombre" required>
+            
+            <label>Apellido:</label>
+            <input type="text" id="apellido" required>
+            
+            <label>Documento:</label>
+            <input type="text" id="documento" required>
+            
+            <label>Fecha de nacimiento:</label>
+            <input type="date" id="fechaNacimiento" required>
+            
+            <button type="submit">Registrar</button>
+          </form>
+          <div id="resultado"></div>
+        `;
+
+        // Agregar lógica de formulario
+        const form = document.getElementById("registroForm");
+        const resultado = document.getElementById("resultado");
+
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          // Tomamos los valores de los inputs
+          const nombre = document.getElementById("nombre").value;
+          const apellido = document.getElementById("apellido").value;
+          const documento = document.getElementById("documento").value;
+          const fechaNacimiento = document.getElementById("fechaNacimiento").value;
+
+          // Creamos un objeto Persona
+          const persona = new Persona(nombre, apellido, documento, fechaNacimiento);
+
+          // Mostramos el resultado en pantalla
+          resultado.innerHTML = `
+            <h3>Persona registrada:</h3>
+            <p><strong>Nombre:</strong> ${persona.nombre}</p>
+            <p><strong>Apellido:</strong> ${persona.apellido}</p>
+            <p><strong>Documento:</strong> ${persona.documento}</p>
+            <p><strong>Fecha de nacimiento:</strong> ${persona.fechaNacimiento}</p>
+          `;
+        });
+      }
+    }
+
+    // Inicializar componente
+    const app = document.getElementById("app");
+    const registro = new RegistroComponent(app);
+    registro.render();
+  </script>
+</body>
+</html>
